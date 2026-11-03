@@ -765,86 +765,106 @@ document.addEventListener('DOMContentLoaded', function () {
 
     list.forEach((item, index) => {
       const card = document.createElement('div');
-      card.className = `date-card rank-${item.starLevel}`;
+      card.className = `date-card rank-${item.starLevel} ${state.isSimpleMode ? 'simple-card' : ''}`;
 
       const tagsHtml = item.highlightTags.map(tag => {
         return `<span class="hl-tag">✦ ${tag}</span>`;
       }).join('');
 
-      const reasonsHtml = item.positiveReasons.map(r => `
-        <div class="reason-item">
-          <div class="reason-category">❖ ${r.category}</div>
-          <div class="reason-title">${r.title}</div>
-          <div class="reason-desc">${r.detail}</div>
-        </div>
-      `).join('');
-
-      const hoursHtml = item.luckyHours.slice(0, 5).map(h => `
-        <span class="hour-pill ${h.starName.includes('黄道') ? 'huangdao' : ''}">
-          ${h.label}
-        </span>
-      `).join('');
-
-      // 简化版判断：如果是简化版模式，不渲染繁琐的命理依据大段文字
-      const detailsBoxHtml = state.isSimpleMode ? '' : `
-        <div class="card-details-box">
-          <div class="details-title">
-            <span>📖 【${scenarioInfo.name}】择日命理依据与适宜维度解析</span>
-            <span style="font-size: 11px; font-weight: normal; color: var(--text-muted);">
-              依《协纪辨方书》《玉匣记》古法考订
-            </span>
+      if (state.isSimpleMode) {
+        // 极简版紧凑小卡片：不占一行，紧凑网格展示，无冗长命理依据
+        card.innerHTML = `
+          <div class="simple-card-top">
+            <span class="simple-solar-date">${item.year}年${item.month}月${item.day}日</span>
+            <span class="simple-weekday ${item.isWeekend ? 'weekend' : ''}">${item.dayOfWeek}</span>
           </div>
-          <div class="reasons-grid">
-            ${reasonsHtml}
+          <div class="simple-lunar-text">
+            ${item.lunarStr} · ${item.ganZhiDay}日
           </div>
-          
-          <div class="hours-preview">
-            <div class="hours-header">
-              <span>⏰ 当天举行【${scenarioInfo.name}】大吉时辰推荐（黄道与六合时辰）：</span>
-            </div>
-            <div class="hours-pills">
-              ${hoursHtml}
-            </div>
+          <div class="simple-tags-area">
+            ${tagsHtml}
           </div>
-        </div>
-      `;
-
-      card.innerHTML = `
-        <div class="card-main">
-          <div class="date-info-left">
-            <div class="date-row-top">
-              <span class="solar-date">${item.year}年${item.month}月${item.day}日</span>
-              <span class="weekday-badge ${item.isWeekend ? 'weekend' : ''}">${item.dayOfWeek} ${item.isWeekend ? '【周末好办事】' : ''}</span>
+          <div class="simple-card-bottom">
+            <div class="simple-score-text">
+              <strong>${item.score}分</strong> · ${'★'.repeat(item.starLevel)}
             </div>
-            <div class="lunar-row">
-              <span>${item.lunarStr}</span>
-              <span class="ganzhi-tag">${item.ganZhiYear}年 ${item.ganZhiMonth}月 ${item.ganZhiDay}日</span>
-              <span style="font-size: 12px; color: var(--text-light);">纳音：${item.nayinDay}</span>
-            </div>
-            <div class="highlight-tags">
-              ${tagsHtml}
-            </div>
-          </div>
-          <div class="card-score-right">
-            <div class="score-badge">
-              <div class="score-num">${item.score}<span>分</span></div>
-              <div class="rank-text">${item.rankName}</div>
-              <div class="stars-view">${'★'.repeat(item.starLevel)}${'☆'.repeat(5 - item.starLevel)}</div>
-            </div>
-          </div>
-        </div>
-
-        ${detailsBoxHtml}
-
-        <div class="card-footer">
-          <span>华夏吉课 · 顺天应时 · 诸事大吉</span>
-          <div class="footer-actions">
-            <button class="btn btn-outline btn-sm btn-copy-card" data-idx="${index}">
-              📋 复制本吉日
+            <button class="btn-simple-copy btn-copy-card" data-idx="${index}">
+              📋 复制
             </button>
           </div>
-        </div>
-      `;
+        `;
+      } else {
+        // 专业详解版大卡片：完整大卡片 + 命理依据全维度解析
+        const reasonsHtml = item.positiveReasons.map(r => `
+          <div class="reason-item">
+            <div class="reason-category">❖ ${r.category}</div>
+            <div class="reason-title">${r.title}</div>
+            <div class="reason-desc">${r.detail}</div>
+          </div>
+        `).join('');
+
+        const hoursHtml = item.luckyHours.slice(0, 5).map(h => `
+          <span class="hour-pill ${h.starName.includes('黄道') ? 'huangdao' : ''}">
+            ${h.label}
+          </span>
+        `).join('');
+
+        card.innerHTML = `
+          <div class="card-main">
+            <div class="date-info-left">
+              <div class="date-row-top">
+                <span class="solar-date">${item.year}年${item.month}月${item.day}日</span>
+                <span class="weekday-badge ${item.isWeekend ? 'weekend' : ''}">${item.dayOfWeek} ${item.isWeekend ? '【周末好办事】' : ''}</span>
+              </div>
+              <div class="lunar-row">
+                <span>${item.lunarStr}</span>
+                <span class="ganzhi-tag">${item.ganZhiYear}年 ${item.ganZhiMonth}月 ${item.ganZhiDay}日</span>
+                <span style="font-size: 12px; color: var(--text-light);">纳音：${item.nayinDay}</span>
+              </div>
+              <div class="highlight-tags">
+                ${tagsHtml}
+              </div>
+            </div>
+            <div class="card-score-right">
+              <div class="score-badge">
+                <div class="score-num">${item.score}<span>分</span></div>
+                <div class="rank-text">${item.rankName}</div>
+                <div class="stars-view">${'★'.repeat(item.starLevel)}${'☆'.repeat(5 - item.starLevel)}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-details-box">
+            <div class="details-title">
+              <span>📖 【${scenarioInfo.name}】择日命理依据与适宜维度解析</span>
+              <span style="font-size: 11px; font-weight: normal; color: var(--text-muted);">
+                依《协纪辨方书》《玉匣记》古法考订
+              </span>
+            </div>
+            <div class="reasons-grid">
+              ${reasonsHtml}
+            </div>
+            
+            <div class="hours-preview">
+              <div class="hours-header">
+                <span>⏰ 当天举行【${scenarioInfo.name}】大吉时辰推荐（黄道与六合时辰）：</span>
+              </div>
+              <div class="hours-pills">
+                ${hoursHtml}
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <span>华夏吉课 · 顺天应时 · 诸事大吉</span>
+            <div class="footer-actions">
+              <button class="btn btn-outline btn-sm btn-copy-card" data-idx="${index}">
+                📋 复制本吉日详情
+              </button>
+            </div>
+          </div>
+        `;
+      }
 
       el.datesList.appendChild(card);
     });
