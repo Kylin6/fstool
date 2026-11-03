@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // 全局状态
   const state = {
     currentScenario: 'wedding',
+    isSimpleMode: document.body.dataset.mode === 'simple', // 简化版模式 (不显示依据)
     groomMode: 'solar', // 'solar' | 'lunar' | 'bazi'
     brideMode: 'solar',
     singleMode: 'solar',
@@ -784,6 +785,30 @@ document.addEventListener('DOMContentLoaded', function () {
         </span>
       `).join('');
 
+      // 简化版判断：如果是简化版模式，不渲染繁琐的命理依据大段文字
+      const detailsBoxHtml = state.isSimpleMode ? '' : `
+        <div class="card-details-box">
+          <div class="details-title">
+            <span>📖 【${scenarioInfo.name}】择日命理依据与适宜维度解析</span>
+            <span style="font-size: 11px; font-weight: normal; color: var(--text-muted);">
+              依《协纪辨方书》《玉匣记》古法考订
+            </span>
+          </div>
+          <div class="reasons-grid">
+            ${reasonsHtml}
+          </div>
+          
+          <div class="hours-preview">
+            <div class="hours-header">
+              <span>⏰ 当天举行【${scenarioInfo.name}】大吉时辰推荐（黄道与六合时辰）：</span>
+            </div>
+            <div class="hours-pills">
+              ${hoursHtml}
+            </div>
+          </div>
+        </div>
+      `;
+
       card.innerHTML = `
         <div class="card-main">
           <div class="date-info-left">
@@ -809,32 +834,13 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </div>
 
-        <div class="card-details-box">
-          <div class="details-title">
-            <span>📖 【${scenarioInfo.name}】择日命理依据与适宜维度解析</span>
-            <span style="font-size: 11px; font-weight: normal; color: var(--text-muted);">
-              依《协纪辨方书》《玉匣记》古法考订
-            </span>
-          </div>
-          <div class="reasons-grid">
-            ${reasonsHtml}
-          </div>
-          
-          <div class="hours-preview">
-            <div class="hours-header">
-              <span>⏰ 当天举行【${scenarioInfo.name}】大吉时辰推荐（黄道与六合时辰）：</span>
-            </div>
-            <div class="hours-pills">
-              ${hoursHtml}
-            </div>
-          </div>
-        </div>
+        ${detailsBoxHtml}
 
         <div class="card-footer">
           <span>华夏吉课 · 顺天应时 · 诸事大吉</span>
           <div class="footer-actions">
             <button class="btn btn-outline btn-sm btn-copy-card" data-idx="${index}">
-              📋 复制本吉日详情
+              📋 复制本吉日
             </button>
           </div>
         </div>
@@ -856,7 +862,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const reasonsText = item.positiveReasons.map(r => `• 【${r.category}】${r.title}：${r.detail}`).join('\n');
     const hoursText = item.luckyHours.slice(0, 4).map(h => h.label).join('、');
 
-    const copyContent = `
+    let copyContent = '';
+    if (state.isSimpleMode) {
+      // 简化版纯净文案
+      copyContent = `
+【${scenarioName}吉日推荐·极简版】
+公历日期：${item.year}年${item.month}月${item.day}日 (${item.dayOfWeek})
+农历日期：${item.lunarStr} (${item.ganZhiYear}年 ${item.ganZhiMonth}月 ${item.ganZhiDay}日)
+适合评分：${item.score}分 · ${item.rankName}
+吉祥吉相：${item.highlightTags.join('、')}
+`.trim();
+    } else {
+      copyContent = `
 【${scenarioName}大吉良辰推荐】
 公历日期：${item.year}年${item.month}月${item.day}日 (${item.dayOfWeek})
 农历日期：${item.lunarStr} (${item.ganZhiYear}年 ${item.ganZhiMonth}月 ${item.ganZhiDay}日)
@@ -869,6 +886,7 @@ ${reasonsText}
 【当天${scenarioName}大吉时辰】：
 ${hoursText}
 `.trim();
+    }
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(copyContent).then(() => {
@@ -962,6 +980,16 @@ ${hoursText}
     if (el.optDaLiOnly) el.optDaLiOnly.addEventListener('change', executeSelection);
     el.optMinStar.addEventListener('change', executeSelection);
     el.sortSelect.addEventListener('change', applySortingAndRender);
+
+    // 动态切换命理依据显示/隐藏
+    const btnToggleDetails = document.getElementById('btnToggleDetails');
+    if (btnToggleDetails) {
+      btnToggleDetails.addEventListener('click', () => {
+        state.isSimpleMode = !state.isSimpleMode;
+        btnToggleDetails.textContent = state.isSimpleMode ? '📖 显示命理依据' : '⚡ 隐藏依据(简化版)';
+        applySortingAndRender();
+      });
+    }
 
     el.btnPrintAll.addEventListener('click', () => {
       window.print();
