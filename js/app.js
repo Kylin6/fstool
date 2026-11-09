@@ -369,7 +369,16 @@ document.addEventListener('DOMContentLoaded', function () {
       refreshPersonBazi('single');
     }
 
-    executeSelection();
+    // 切换场景时：如果已输入八字则静默重算，未输入则隐藏结果区（不展示默认假测算）
+    const hasInput = (scenarioKey === 'wedding') 
+      ? (state.groomBazi && state.brideBazi)
+      : !!state.singleBazi;
+
+    if (hasInput) {
+      executeSelection(false);
+    } else {
+      el.resultsContainer.style.display = 'none';
+    }
   }
 
   // 模式切换控制 (公历 / 农历 / 八字)
@@ -537,7 +546,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function renderPillars(container, bazi, label) {
-    if (!container || !bazi) return;
+    if (!container) return;
+    if (!bazi) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 18px 8px; color: var(--text-light); font-size: 13px; line-height: 1.6;">
+          <div style="font-size: 18px; margin-bottom: 4px;">🏮</div>
+          <div style="color: var(--text-muted); font-weight: 500;">请选择【${label}】的出生日期</div>
+          <div style="font-size: 11px; color: var(--text-light); margin-top: 2px;">支持输入公历、农历或自选八字，将自动排盘</div>
+        </div>
+      `;
+      return;
+    }
     container.innerHTML = `
       <div class="pillars-header">
         <span>【${label}】生肖属<strong>${bazi.shengxiao}</strong></span>
@@ -623,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
         syncSolarToLunarForm('single');
       }
       initDefaultDateRange();
-      executeSelection();
+      executeSelection(true);
     });
 
     el.btnDemoPreset1.addEventListener('click', () => {
@@ -641,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function () {
         syncSolarToLunarForm('single');
       }
       initDefaultDateRange();
-      executeSelection();
+      executeSelection(true);
     });
 
     el.btnDemoPreset2.addEventListener('click', () => {
@@ -659,11 +678,11 @@ document.addEventListener('DOMContentLoaded', function () {
         syncSolarToLunarForm('single');
       }
       initDefaultDateRange();
-      executeSelection();
+      executeSelection(true);
     });
   }
 
-  function executeSelection() {
+  function executeSelection(isManualTrigger = false) {
     const curScenario = state.currentScenario;
     let primary = null;
     let secondary = null;
@@ -672,27 +691,39 @@ document.addEventListener('DOMContentLoaded', function () {
       primary = state.groomBazi;
       secondary = state.brideBazi;
       if (!primary || !secondary) {
-        refreshPersonBazi('groom');
-        refreshPersonBazi('bride');
-        primary = state.groomBazi;
-        secondary = state.brideBazi;
+        if (isManualTrigger) {
+          if (!primary && !secondary) {
+            alert('请先输入新郎和新娘的出生日期或自选八字！');
+          } else if (!primary) {
+            alert('请先输入新郎的出生日期或自选八字！');
+          } else {
+            alert('请先输入新娘的出生日期或自选八字！');
+          }
+        }
+        return;
       }
     } else {
       primary = state.singleBazi;
       if (!primary) {
-        refreshPersonBazi('single');
-        primary = state.singleBazi;
+        if (isManualTrigger) {
+          const roleName = SCENARIOS[curScenario] ? SCENARIOS[curScenario].name : '该场景';
+          alert(`请先输入【${roleName}】主事者的出生日期或自选八字！`);
+        }
+        return;
       }
     }
 
     const startVal = el.weddingStartDate.value;
     const endVal = el.weddingEndDate.value;
-    if (!startVal || !endVal) return;
+    if (!startVal || !endVal) {
+      if (isManualTrigger) alert('请选择想要择日的时间范围！');
+      return;
+    }
 
     const startDate = new Date(startVal + 'T00:00:00');
     const endDate = new Date(endVal + 'T00:00:00');
     if (startDate > endDate) {
-      alert('开始日期不能晚于结束日期！');
+      if (isManualTrigger) alert('开始日期不能晚于结束日期！');
       return;
     }
 
@@ -715,6 +746,9 @@ document.addEventListener('DOMContentLoaded', function () {
     applySortingAndRender();
 
     el.resultsContainer.style.display = 'block';
+    if (isManualTrigger) {
+      el.resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   function applySortingAndRender() {
@@ -995,21 +1029,11 @@ ${hoursText}
       });
     });
 
-    el.btnCalculate.addEventListener('click', executeSelection);
-    el.optWeekendOnly.addEventListener('change', executeSelection);
-    if (el.optDaLiOnly) el.optDaLiOnly.addEventListener('change', executeSelection);
-    el.optMinStar.addEventListener('change', executeSelection);
+    el.btnCalculate.addEventListener('click', () => executeSelection(true));
+    el.optWeekendOnly.addEventListener('change', () => executeSelection(false));
+    if (el.optDaLiOnly) el.optDaLiOnly.addEventListener('change', () => executeSelection(false));
+    el.optMinStar.addEventListener('change', () => executeSelection(false));
     el.sortSelect.addEventListener('change', applySortingAndRender);
-
-    // 动态切换命理依据显示/隐藏
-    const btnToggleDetails = document.getElementById('btnToggleDetails');
-    if (btnToggleDetails) {
-      btnToggleDetails.addEventListener('click', () => {
-        state.isSimpleMode = !state.isSimpleMode;
-        btnToggleDetails.textContent = state.isSimpleMode ? '📖 显示命理依据' : '⚡ 隐藏依据(简化版)';
-        applySortingAndRender();
-      });
-    }
 
     el.btnPrintAll.addEventListener('click', () => {
       window.print();
@@ -1048,17 +1072,12 @@ ${hoursText}
     setupDemos();
     bindEvents();
 
-    // 初始同步
-    refreshPersonBazi('groom');
-    syncSolarToLunarForm('groom');
+    // 初始状态：未选择生辰，显示空状态提示，绝不自动跑默认假测算！
+    renderPillars(el.groomPreviewPillars, null, '新郎');
+    renderPillars(el.bridePreviewPillars, null, '新娘');
+    renderPillars(el.singlePreviewPillars, null, '福主');
 
-    refreshPersonBazi('bride');
-    syncSolarToLunarForm('bride');
-
-    refreshPersonBazi('single');
-    syncSolarToLunarForm('single');
-
-    executeSelection();
+    el.resultsContainer.style.display = 'none';
   }
 
   init();
