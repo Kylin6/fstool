@@ -1039,12 +1039,12 @@ ${hoursText}
       window.print();
     });
 
-    // 复制易学名师微信号
+    // 复制继承堂风水 鄢先生微信号
     const WECHAT_ID = 'y395922694';
     function copyWechat() {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(WECHAT_ID).then(() => {
-          alert('微信号【' + WECHAT_ID + '】已成功复制到剪贴板！\n可前往微信搜索添加好友，咨询风水、六爻占卜、星宿命理等事宜。');
+          alert('继承堂风水 鄢先生微信号【' + WECHAT_ID + '】已成功复制到剪贴板！\n可前往微信搜索添加好友，咨询阳宅阴宅风水、六爻占卜、星宿命理、择吉合婚等事宜。');
         }).catch(() => fallbackCopy(WECHAT_ID));
       } else {
         fallbackCopy(WECHAT_ID);
