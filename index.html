@@ -590,70 +590,73 @@
 
       <!-- 吉日卡片列表容器 -->
       <div id="datesList" class="dates-list"></div>
+    </section>
 
-      <!-- 易学名师广告与专项咨询卡片 -->
-      <div class="master-ad-card">
-        <div class="master-ad-header">
-          <div class="master-ad-title-area">
-            <div class="master-bagua-icon">☯️</div>
-            <div>
-              <h3>继承堂风水 · 鄢先生 易学专项咨询</h3>
-              <p>传承正统周易堪舆 · 阳宅阴宅风水 · 六爻占卜 · 星宿命理精批 · 趋吉避凶</p>
-            </div>
-          </div>
-          <div style="font-size: 12px; color: var(--gold-accent); border: 1px dashed rgba(212, 175, 55, 0.4); padding: 4px 12px; border-radius: 20px;">
-            ✦ 继承堂正统风水 · 诚心详批 ✦
-          </div>
-        </div>
-
-        <div class="master-services-grid">
-          <div class="service-card-item">
-            <div class="service-card-top">
-              <span class="s-icon">🏡</span>
-              <span class="s-name">阳宅 / 阴宅风水勘测</span>
-            </div>
-            <p>居家风水纳福布局、公司商铺催财旺位、办公室文昌布局、化煞辟邪、安宅定居调理。</p>
-          </div>
-
-          <div class="service-card-item">
-            <div class="service-card-top">
-              <span class="s-icon">🔮</span>
-              <span class="s-name">周易六爻神断占卜</span>
-            </div>
-            <p>一事一断起卦神断：问求财运势、合作合伙、婚姻情感、升迁考试、诉讼抉择、失物寻谋。</p>
-          </div>
-
-          <div class="service-card-item">
-            <div class="service-card-top">
-              <span class="s-icon">🌌</span>
-              <span class="s-name">星宿命理 · 八字合婚</span>
-            </div>
-            <p>二十八星宿天象与生辰八字深度推演、男女八字精批合婚、大运流年祸福指引、五行喜忌调候。</p>
-          </div>
-
-          <div class="service-card-item">
-            <div class="service-card-top">
-              <span class="s-icon">📜</span>
-              <span class="s-name">定制专案择吉 · 祈福</span>
-            </div>
-            <p>生子剖腹产择吉课、特大型工程奠基、企业重大乔迁开业专案、起名改名赐福。</p>
-          </div>
-        </div>
-
-        <div class="master-contact-bar">
-          <div class="contact-left">
-            <span style="font-size: 14px; color: #f0e6d6;">鄢先生个人微信：</span>
-            <div class="contact-wechat-box">
-              <span style="font-size: 16px;">💬</span>
-              <span class="wechat-num" id="wechatNumText">y395922694</span>
-            </div>
-            <span style="font-size: 12px; color: #c4b5a5;">(添加请备注：继承堂风水咨询)</span>
-          </div>
+    <!-- 继承堂风水 · 鄢先生 易学名师名片与专项咨询板块 (页面常驻) -->
+    <section class="master-ad-card" id="masterConsultCard">
+      <div class="master-ad-header">
+        <div class="master-ad-title-area">
+          <div class="master-bagua-icon">☯️</div>
           <div>
-            <button class="btn-copy-wechat" id="btnCopyWechat" type="button">
-              📋 复制鄢先生微信号
-            </button>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <h3 style="margin: 0;">继承堂风水 · 鄢先生</h3>
+              <span style="font-size: 11px; background: rgba(212, 175, 55, 0.2); color: var(--gold-accent); border: 1px solid rgba(212, 175, 55, 0.4); padding: 2px 8px; border-radius: 10px;">🪪 易学名师名片</span>
+            </div>
+            <p>传承正统周易堪舆 · 阳宅阴宅风水 · 六爻占卜 · 星宿命理精批 · 趋吉避凶</p>
           </div>
+        </div>
+        <div style="font-size: 12px; color: var(--gold-accent); border: 1px dashed rgba(212, 175, 55, 0.4); padding: 4px 12px; border-radius: 20px;">
+          ✦ 继承堂正统风水 · 诚心详批 ✦
+        </div>
+      </div>
+
+      <div class="master-services-grid">
+        <div class="service-card-item">
+          <div class="service-card-top">
+            <span class="s-icon">🏡</span>
+            <span class="s-name">阳宅 / 阴宅风水勘测</span>
+          </div>
+          <p>居家风水纳福布局、公司商铺催财旺位、办公室文昌布局、化煞辟邪、安宅定居调理。</p>
+        </div>
+
+        <div class="service-card-item">
+          <div class="service-card-top">
+            <span class="s-icon">🔮</span>
+            <span class="s-name">周易六爻神断占卜</span>
+          </div>
+          <p>一事一断起卦神断：问求财运势、合作合伙、婚姻情感、升迁考试、诉讼抉择、失物寻谋。</p>
+        </div>
+
+        <div class="service-card-item">
+          <div class="service-card-top">
+            <span class="s-icon">🌌</span>
+            <span class="s-name">星宿命理 · 八字合婚</span>
+          </div>
+          <p>二十八星宿天象与生辰八字深度推演、男女八字精批合婚、大运流年祸福指引、五行喜忌调候。</p>
+        </div>
+
+        <div class="service-card-item">
+          <div class="service-card-top">
+            <span class="s-icon">📜</span>
+            <span class="s-name">定制专案择吉 · 祈福</span>
+          </div>
+          <p>生子剖腹产择吉课、特大型工程奠基、企业重大乔迁开业专案、起名改名赐福。</p>
+        </div>
+      </div>
+
+      <div class="master-contact-bar">
+        <div class="contact-left">
+          <span style="font-size: 14px; color: #f0e6d6;">鄢先生个人微信：</span>
+          <div class="contact-wechat-box">
+            <span style="font-size: 16px;">💬</span>
+            <span class="wechat-num" id="wechatNumText">y395922694</span>
+          </div>
+          <span style="font-size: 12px; color: #c4b5a5;">(添加请备注：继承堂风水咨询)</span>
+        </div>
+        <div>
+          <button class="btn-copy-wechat" id="btnCopyWechat" type="button">
+            📋 复制鄢先生微信号
+          </button>
         </div>
       </div>
     </section>

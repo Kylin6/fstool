@@ -1049,6 +1049,10 @@ ${hoursText}
       } else {
         fallbackCopy(WECHAT_ID);
       }
+      const card = document.getElementById('masterConsultCard');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     const btnCopyWechat = document.getElementById('btnCopyWechat');
