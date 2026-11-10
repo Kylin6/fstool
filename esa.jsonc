@@ -3,7 +3,7 @@
   "installCommand": "",             // 留空，跳过依赖安装
   "buildCommand": "",               // 留空，跳过构建步骤
   "assets": {
-    "directory": "/simple.html",               // 关键：静态文件所在的目录
+    "directory": "/",               // 关键：静态文件所在的目录
     "notFoundStrategy": "404Page"  // 可选：自定义404页面
   }
 }
