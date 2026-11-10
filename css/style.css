@@ -1322,3 +1322,179 @@ body[data-mode="simple"] .date-card:hover {
     padding-top: 12px;
   }
 }
+
+/* ============================================================
+   引流获客专用（极简版 landing page 样式定制）
+   ============================================================ */
+body[data-mode="simple"] .lead-top-bar {
+  background: linear-gradient(90deg, #2b1f1d, #422923, #2b1f1d);
+  color: #f7ede2;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  padding: 8px 16px;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+body[data-mode="simple"] .lead-top-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: var(--gold-accent);
+  padding: 2px 10px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+body[data-mode="simple"] .lead-top-pill:hover {
+  background: var(--gold-accent);
+  color: #2b1f1d;
+}
+
+/* 隐藏晦涩的自选八字模式，降低网民使用门槛 */
+body[data-mode="simple"] #groomModeBazi,
+body[data-mode="simple"] #brideModeBazi,
+body[data-mode="simple"] #singleModeBazi,
+body[data-mode="simple"] #groomBaziForm,
+body[data-mode="simple"] #brideBaziForm,
+body[data-mode="simple"] #singleBaziForm {
+  display: none !important;
+}
+
+/* 测算结果下方的核心引流转化卡 (Lead Magnet) */
+.lead-conversion-card {
+  background: linear-gradient(135deg, #fff9f0, #fff2e0);
+  border: 1.5px solid #d4af37;
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  margin: 24px 0 16px;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.lead-conversion-card::after {
+  content: "✦ 名师核准 ✦";
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  background: #8b181b;
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 32px;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+}
+
+.lead-conversion-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.lead-conversion-header h3 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: #8b181b;
+  margin: 0;
+}
+
+.lead-conversion-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+
+.lead-point-item {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px dashed rgba(139, 24, 27, 0.25);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.5;
+}
+
+.lead-point-item strong {
+  color: #8b181b;
+}
+
+.lead-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid #ebdcd0;
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  flex-wrap: wrap;
+}
+
+.lead-action-btn {
+  background: linear-gradient(135deg, #8b181b, #a51e22);
+  color: #fff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(139, 24, 27, 0.3);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lead-action-btn:hover {
+  background: linear-gradient(135deg, #a51e22, #c0282d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(139, 24, 27, 0.45);
+}
+
+/* 信任背书卡片 (替代长文科普) */
+.trust-commit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.trust-commit-item {
+  background: #fff;
+  border: 1px solid #ebdcd0;
+  border-radius: var(--radius-md);
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.trust-commit-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.trust-commit-item h4 {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--deep-red);
+  margin-bottom: 6px;
+}
+
+.trust-commit-item p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}

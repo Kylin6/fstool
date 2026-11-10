@@ -622,64 +622,70 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function setupDemos() {
-    el.btnDemoGeneral.addEventListener('click', () => {
-      const cur = state.currentScenario;
-      if (cur === 'wedding') {
-        el.groomBirthDate.value = '1996-08-16';
-        el.groomBirthHour.value = '10';
-        refreshPersonBazi('groom');
-        syncSolarToLunarForm('groom');
+    if (el.btnDemoGeneral) {
+      el.btnDemoGeneral.addEventListener('click', () => {
+        const cur = state.currentScenario;
+        if (cur === 'wedding') {
+          el.groomBirthDate.value = '1996-08-16';
+          el.groomBirthHour.value = '10';
+          refreshPersonBazi('groom');
+          syncSolarToLunarForm('groom');
 
-        el.brideBirthDate.value = '1998-03-20';
-        el.brideBirthHour.value = '14';
-        refreshPersonBazi('bride');
-        syncSolarToLunarForm('bride');
-      } else {
-        const info = SCENARIOS[cur];
-        el.singleBirthDate.value = info.defaultDate;
-        el.singleBirthHour.value = info.defaultHour;
-        refreshPersonBazi('single');
-        syncSolarToLunarForm('single');
-      }
-      initDefaultDateRange();
-      executeSelection(true);
-    });
+          el.brideBirthDate.value = '1998-03-20';
+          el.brideBirthHour.value = '14';
+          refreshPersonBazi('bride');
+          syncSolarToLunarForm('bride');
+        } else {
+          const info = SCENARIOS[cur];
+          el.singleBirthDate.value = info.defaultDate;
+          el.singleBirthHour.value = info.defaultHour;
+          refreshPersonBazi('single');
+          syncSolarToLunarForm('single');
+        }
+        initDefaultDateRange();
+        executeSelection(true);
+      });
+    }
 
-    el.btnDemoPreset1.addEventListener('click', () => {
-      if (state.currentScenario === 'wedding') {
-        el.groomBirthDate.value = '1988-04-12';
-        refreshPersonBazi('groom');
-        syncSolarToLunarForm('groom');
-        el.brideBirthDate.value = '1990-09-18';
-        refreshPersonBazi('bride');
-        syncSolarToLunarForm('bride');
-      } else {
-        el.singleBirthDate.value = '1988-04-12';
-        el.singleBirthHour.value = '8';
-        refreshPersonBazi('single');
-        syncSolarToLunarForm('single');
-      }
-      initDefaultDateRange();
-      executeSelection(true);
-    });
+    if (el.btnDemoPreset1) {
+      el.btnDemoPreset1.addEventListener('click', () => {
+        if (state.currentScenario === 'wedding') {
+          el.groomBirthDate.value = '1988-04-12';
+          refreshPersonBazi('groom');
+          syncSolarToLunarForm('groom');
+          el.brideBirthDate.value = '1990-09-18';
+          refreshPersonBazi('bride');
+          syncSolarToLunarForm('bride');
+        } else {
+          el.singleBirthDate.value = '1988-04-12';
+          el.singleBirthHour.value = '8';
+          refreshPersonBazi('single');
+          syncSolarToLunarForm('single');
+        }
+        initDefaultDateRange();
+        executeSelection(true);
+      });
+    }
 
-    el.btnDemoPreset2.addEventListener('click', () => {
-      if (state.currentScenario === 'wedding') {
-        el.groomBirthDate.value = '1992-07-22';
-        refreshPersonBazi('groom');
-        syncSolarToLunarForm('groom');
-        el.brideBirthDate.value = '1994-11-05';
-        refreshPersonBazi('bride');
-        syncSolarToLunarForm('bride');
-      } else {
-        el.singleBirthDate.value = '1992-07-22';
-        el.singleBirthHour.value = '14';
-        refreshPersonBazi('single');
-        syncSolarToLunarForm('single');
-      }
-      initDefaultDateRange();
-      executeSelection(true);
-    });
+    if (el.btnDemoPreset2) {
+      el.btnDemoPreset2.addEventListener('click', () => {
+        if (state.currentScenario === 'wedding') {
+          el.groomBirthDate.value = '1992-07-22';
+          refreshPersonBazi('groom');
+          syncSolarToLunarForm('groom');
+          el.brideBirthDate.value = '1994-11-05';
+          refreshPersonBazi('bride');
+          syncSolarToLunarForm('bride');
+        } else {
+          el.singleBirthDate.value = '1992-07-22';
+          el.singleBirthHour.value = '14';
+          refreshPersonBazi('single');
+          syncSolarToLunarForm('single');
+        }
+        initDefaultDateRange();
+        executeSelection(true);
+      });
+    }
   }
 
   function executeSelection(isManualTrigger = false) {
@@ -1029,15 +1035,17 @@ ${hoursText}
       });
     });
 
-    el.btnCalculate.addEventListener('click', () => executeSelection(true));
-    el.optWeekendOnly.addEventListener('change', () => executeSelection(false));
+    if (el.btnCalculate) el.btnCalculate.addEventListener('click', () => executeSelection(true));
+    if (el.optWeekendOnly) el.optWeekendOnly.addEventListener('change', () => executeSelection(false));
     if (el.optDaLiOnly) el.optDaLiOnly.addEventListener('change', () => executeSelection(false));
-    el.optMinStar.addEventListener('change', () => executeSelection(false));
-    el.sortSelect.addEventListener('change', applySortingAndRender);
+    if (el.optMinStar) el.optMinStar.addEventListener('change', () => executeSelection(false));
+    if (el.sortSelect) el.sortSelect.addEventListener('change', applySortingAndRender);
 
-    el.btnPrintAll.addEventListener('click', () => {
-      window.print();
-    });
+    if (el.btnPrintAll) {
+      el.btnPrintAll.addEventListener('click', () => {
+        window.print();
+      });
+    }
 
     // 复制继承堂风水 鄢先生微信号
     const WECHAT_ID = 'y395922694';
@@ -1063,6 +1071,16 @@ ${hoursText}
     const floatingConsultPill = document.getElementById('floatingConsultPill');
     if (floatingConsultPill) {
       floatingConsultPill.addEventListener('click', copyWechat);
+    }
+
+    const topPillWechat = document.getElementById('topPillWechat');
+    if (topPillWechat) {
+      topPillWechat.addEventListener('click', copyWechat);
+    }
+
+    const btnCopyWechatResult = document.getElementById('btnCopyWechatResult');
+    if (btnCopyWechatResult) {
+      btnCopyWechatResult.addEventListener('click', copyWechat);
     }
   }
 
