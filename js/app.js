@@ -350,8 +350,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const info = SCENARIOS[scenarioKey];
     if (!info) return;
 
-    el.scenarioBanner.querySelector('.banner-icon').textContent = info.icon;
-    el.scenarioBannerText.textContent = info.banner;
+    if (el.scenarioBanner) {
+      const bannerIcon = el.scenarioBanner.querySelector('.banner-icon');
+      if (bannerIcon) bannerIcon.textContent = info.icon;
+    }
+    if (el.scenarioBannerText) {
+      el.scenarioBannerText.textContent = info.banner;
+    }
 
     if (scenarioKey === 'wedding') {
       el.weddingBaziGrid.style.display = 'grid';

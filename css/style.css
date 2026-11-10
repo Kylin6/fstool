@@ -1359,13 +1359,15 @@ body[data-mode="simple"] .lead-top-pill:hover {
   color: #2b1f1d;
 }
 
-/* 隐藏晦涩的自选八字模式，降低网民使用门槛 */
+/* 隐藏晦涩的自选八字模式与冗余场景横幅，降低网民使用门槛 */
 body[data-mode="simple"] #groomModeBazi,
 body[data-mode="simple"] #brideModeBazi,
 body[data-mode="simple"] #singleModeBazi,
 body[data-mode="simple"] #groomBaziForm,
 body[data-mode="simple"] #brideBaziForm,
-body[data-mode="simple"] #singleBaziForm {
+body[data-mode="simple"] #singleBaziForm,
+body[data-mode="simple"] #scenarioBanner,
+body[data-mode="simple"] .scenario-banner {
   display: none !important;
 }
 
